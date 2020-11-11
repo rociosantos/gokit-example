@@ -1,0 +1,19 @@
+version: "3"
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack_gokit-example
+    ports:
+      - '4563-4599:4563-4599'
+      - '${PORT_WEB_UI-8080}:${PORT_WEB_UI-8080}'
+    environment:
+      - SERVICES=s3,sqs,dynamodb
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - './.localstack:/tmp/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    networks:
+      - default-network
+networks:
+  default-network:
